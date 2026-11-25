@@ -39,7 +39,6 @@ const cols = [
   </div>
   <div class="container legal">
     <span>© {year} {SITE.author}. Released under the {SITE.license} License.</span>
-    <span>Built with Astro. Go is a trademark of Google LLC.</span>
   </div>
 </footer>
 
@@ -54,6 +53,6 @@ const cols = [
   ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
   ul a { color: var(--muted); }
   ul a:hover { color: var(--text); }
-  .legal { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13.5px; }
+  .legal { display: flex; justify-content: center; text-align: center; flex-wrap: wrap; gap: 10px; margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13.5px; }
   @media (max-width: 860px) { .grid { grid-template-columns: 1fr 1fr; } .about { grid-column: 1 / -1; } }
 </style>
