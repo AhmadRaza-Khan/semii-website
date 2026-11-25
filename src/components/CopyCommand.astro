@@ -1,0 +1,44 @@
+---
+interface Props { command: string; label?: string }
+const { command, label = 'Copy install command' } = Astro.props;
+---
+
+<div class="copy-cmd">
+  <span class="prompt" aria-hidden="true">$</span>
+  <code>{command}</code>
+  <button type="button" data-copy={command} aria-label={label}>
+    <svg class="i-copy" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+    <svg class="i-ok" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) =>
+    b.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(b.dataset.copy ?? '');
+        b.classList.add('done');
+        setTimeout(() => b.classList.remove('done'), 1600);
+      } catch {}
+    }),
+  );
+</script>
+
+<style>
+  .copy-cmd {
+    display: flex; align-items: center; gap: 10px; max-width: 100%;
+    background: var(--code-bg); border: 1px solid var(--border-strong); border-radius: 12px;
+    padding: 6px 6px 6px 16px; font-family: var(--font-mono); font-size: 14px; color: #f3e6d9;
+  }
+  .prompt { color: var(--gold); user-select: none; }
+  code { overflow-x: auto; white-space: nowrap; scrollbar-width: none; flex: 1; min-width: 0; }
+  code::-webkit-scrollbar { display: none; }
+  button {
+    flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 8px;
+    border: 1px solid #3a2c21; background: #1f1812; color: #d8c8b8; cursor: pointer;
+  }
+  button:hover { color: #fff; border-color: var(--ember); }
+  .i-ok { display: none; color: #7ddc8a; }
+  button.done .i-ok { display: block; }
+  button.done .i-copy { display: none; }
+</style>

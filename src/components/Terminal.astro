@@ -1,0 +1,55 @@
+---
+// A scripted terminal session: lines appear one after another (CSS only;
+// shown all at once for visitors who prefer reduced motion).
+type Line = { kind: 'cmd' | 'out' | 'ok' | 'dim'; text: string };
+const lines: Line[] = [
+  { kind: 'cmd', text: 'semii new shop --db postgres --auth jwt' },
+  { kind: 'out', text: 'Creating shop' },
+  { kind: 'ok', text: '  create    cmd/api/main.go' },
+  { kind: 'ok', text: '  create    internal/app/app.go' },
+  { kind: 'ok', text: '  create    internal/auth/jwt.go' },
+  { kind: 'dim', text: '  …         48 files: config, migrations, Dockerfile, CI, tests' },
+  { kind: 'out', text: '  run       sqlc generate' },
+  { kind: 'out', text: '  run       go mod tidy' },
+  { kind: 'cmd', text: 'semii g resource Product name:string price:decimal:min=0' },
+  { kind: 'ok', text: '  create    internal/product/handler.go' },
+  { kind: 'ok', text: '  create    internal/product/handler_test.go' },
+  { kind: 'ok', text: '  create    db/migrations/20261125120000_create_products.sql' },
+  { kind: 'out', text: '  update    internal/app/routes.go' },
+  { kind: 'cmd', text: 'semii migrate up' },
+  { kind: 'ok', text: '  up        20261125120000_create_products.sql (9ms)' },
+  { kind: 'cmd', text: 'semii dev' },
+  { kind: 'out', text: 'built in 959ms; restarting' },
+  { kind: 'ok', text: 'INF server started addr=:8080' },
+];
+---
+
+<figure class="terminal" aria-label="Terminal session: creating a Go API with semii">
+  <div class="chrome" aria-hidden="true"><i></i><i></i><i></i><span>~/code — zsh</span></div>
+  <pre><code>{lines.map((l, i) => (
+    <span class={`line ${l.kind}`} style={`--i:${i}`}>{l.kind === 'cmd' && <span class="ps">$ </span>}{l.text}{'\n'}</span>
+  ))}<span class="line cursor-line" style={`--i:${lines.length}`}><span class="ps">$ </span><span class="cursor"></span></span></code></pre>
+</figure>
+
+<style>
+  .terminal {
+    margin: 0; border-radius: 16px; overflow: hidden;
+    background: #0d0a08; border: 1px solid #33271e;
+    box-shadow: 0 40px 120px -40px rgba(242, 102, 28, .35), var(--shadow);
+  }
+  .chrome { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #17110d; border-bottom: 1px solid #2a2019; }
+  .chrome i { width: 12px; height: 12px; border-radius: 50%; background: #3b2e24; }
+  .chrome i:nth-child(1) { background: #ff5f57; } .chrome i:nth-child(2) { background: #febc2e; } .chrome i:nth-child(3) { background: #28c840; }
+  .chrome span { margin-left: 10px; font-size: 12.5px; color: #8c7a6b; font-family: var(--font-mono); }
+  pre { margin: 0; padding: 18px 20px 22px; font-size: 13.5px; line-height: 1.75; overflow-x: auto; color: #e9dccf; min-height: 360px; }
+  .line { display: block; opacity: 0; animation: show .01s linear forwards; animation-delay: calc(var(--i) * 0.34s + .4s); white-space: pre; }
+  .cmd { color: #fff4ea; font-weight: 600; }
+  .cmd:not(:first-child) { margin-top: 10px; }
+  .ps { color: var(--gold); }
+  .ok { color: #8fd99a; }
+  .dim { color: #8c7a6b; }
+  .cursor { display: inline-block; width: 8px; height: 16px; background: #f6b23b; vertical-align: -3px; animation: blink 1s steps(1) infinite; }
+  @keyframes show { to { opacity: 1; } }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .line { opacity: 1; } }
+</style>

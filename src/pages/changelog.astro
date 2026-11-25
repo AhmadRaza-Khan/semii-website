@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { Content } from '../data/changelog.md';
+---
+
+<Base title="Changelog" description="Every semii release: new features, fixes and security updates to the Go API scaffolding framework and its packages.">
+  <div class="container page">
+    <span class="eyebrow">Releases</span>
+    <h1>Changelog</h1>
+    <p class="intro">What changed in each semii release. semii follows semantic versioning; its public packages are stable within v1.</p>
+    <div class="prose"><Content /></div>
+  </div>
+</Base>
+
+<style>
+  .page { max-width: 860px; padding-top: 56px; padding-bottom: 40px; }
+  h1 { font-size: clamp(36px, 5vw, 54px); margin-top: 8px; }
+  .intro { color: var(--muted); font-size: 18px; margin-bottom: 36px; }
+  .prose :global(h2) { border-top: 1px solid var(--border); padding-top: 28px; }
+</style>
